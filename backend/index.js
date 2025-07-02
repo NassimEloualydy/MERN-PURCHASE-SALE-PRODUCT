@@ -6,6 +6,9 @@ const colors=require('colors')
 const mongoose=require("mongoose")
 app.use(cors())
 app.use(express.json())
+
+const userRoutes=require("./routes/userRoutes");
+app.use("/API/user",userRoutes);
 const PORT=process.env.PORT || 4000
 const DATABASE=process.env.DATABASE
 mongoose.connect(DATABASE).then(()=>{
