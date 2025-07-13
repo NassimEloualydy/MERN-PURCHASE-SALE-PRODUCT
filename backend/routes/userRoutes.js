@@ -1,8 +1,8 @@
 const express=require("express");
 const Route=express.Router()
-const {register,login,logout}=require("../controller/userController")
+const {register,getPhoto,login,logout}=require("../controller/userController")
 const {auth}=require("../middleware/auth")
 Route.post("/register",register);
 Route.post("/login",login);
-Route.post("/logout",auth,logout);
+Route.get("/getPhoto/:_id",getPhoto);
 module.exports=Route;

@@ -1,0 +1,25 @@
+     <DataTable data={tableData}  
+     options={{
+          columns: [
+            { data: "_id" ,visible: false},
+            { data: 'Name' },
+            { data: 'Sexe' },
+            { data: null,   
+                        orderable: false,                          render: function (data, type, row) {
+                             return `
+              <span class="btn-delete" data-id="${row._id}" style="color:#d62828; cursor:pointer;">Delete</span>
+              <span class="btn-update" data-id="${row._id}" style="color:#f77f00; cursor:pointer;">✏️</span>
+            `;
+                        }}  
+        ],
+        }}
+     className="display table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Sexe</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </DataTable>

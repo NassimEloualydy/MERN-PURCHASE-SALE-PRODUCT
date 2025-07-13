@@ -8,9 +8,14 @@ app.use(cors())
 app.use(express.json())
 
 const userRoutes=require("./routes/userRoutes");
+const categoryRoutes=require("./routes/categoryRoutes");
+
 app.use("/API/user",userRoutes);
+app.use("/API/category",categoryRoutes);
+
 const PORT=process.env.PORT || 4000
 const DATABASE=process.env.DATABASE
+
 mongoose.connect(DATABASE).then(()=>{
     console.log("Database Connted".bgBlue)
 }).catch((err)=>console.log(err))
