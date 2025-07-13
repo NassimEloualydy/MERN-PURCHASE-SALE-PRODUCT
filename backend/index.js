@@ -9,9 +9,12 @@ app.use(express.json())
 
 const userRoutes=require("./routes/userRoutes");
 const categoryRoutes=require("./routes/categoryRoutes");
+const productRoutes=require("./routes/productRoutes");
 
 app.use("/API/user",userRoutes);
 app.use("/API/category",categoryRoutes);
+app.use("/API/product",productRoutes);
+
 
 const PORT=process.env.PORT || 4000
 const DATABASE=process.env.DATABASE
