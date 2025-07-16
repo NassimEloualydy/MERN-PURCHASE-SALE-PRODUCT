@@ -251,7 +251,7 @@ getData();
         <div className="container border border-white text-light pb-3 rounded-3">
             <div className="p-2">
                 <h3 className='fw-bolder'>Categories</h3>
- <div className="container">
+           <div className="container">
             <form action="">
                 <div className="row text-center">
                     <div className="col-md mt-2"><input type="text" name="name" onChange={handleChangeSearch} value={searchCategory.name}    placeholder='Name' className="form-control" /></div>

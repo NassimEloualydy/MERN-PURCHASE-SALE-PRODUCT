@@ -5,6 +5,7 @@ import React from 'react'
 import Home from '../components/Home'
 import PrivateRoute from './PrivateRoute'
 import Category from '../components/Category'
+import Product from '../components/Product'
 const RouteSystem = () => {
   return (
     <div>
@@ -17,6 +18,10 @@ const RouteSystem = () => {
             <Route element={<PrivateRoute/>}>
               <Route path="/Category" element={<Category/>} />
             </Route>
+            <Route element={<PrivateRoute/>}>
+              <Route path="/Product" element={<Product/>} />
+            </Route>
+
 {/*             
             <Route element={<PrivateRoute/>}>
               <Route path="/Product" element={<Product/>} />
