@@ -51,7 +51,8 @@ const hideData=()=>{
         _id:""
       })
       setSexeData([])
-      
+          document.querySelectorAll('.form-multi-select-cleaner')[0].click();
+
 
 }
 const paginateData=(step)=>{
@@ -134,7 +135,7 @@ const submitCategory=()=>{
     //     sexe[i].selected = {value:sexe[i].value,label:sexe[i].label,};
         
     // }
-
+    console.log(category)
    if(category.name=="" || category.sexe==""){
     toastr.warning("Please all the fields are required !!","Warning",{positionClass:"toast-bottom-right"});
    }
@@ -160,6 +161,7 @@ const submitCategory=()=>{
 ])
     getData();
     setSexeData([])
+    hideData();
 
 
     }else if(res.err){

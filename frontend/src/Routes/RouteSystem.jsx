@@ -6,6 +6,7 @@ import Home from '../components/Home'
 import PrivateRoute from './PrivateRoute'
 import Category from '../components/Category'
 import Product from '../components/Product'
+import ProductDetails from '../components/ProductDetails'
 const RouteSystem = () => {
   return (
     <div>
@@ -21,6 +22,11 @@ const RouteSystem = () => {
             <Route element={<PrivateRoute/>}>
               <Route path="/Product" element={<Product/>} />
             </Route>
+            <Route element={<PrivateRoute/>}>
+              <Route path="/ProductDetails" element={<ProductDetails/>} />
+            </Route>
+
+            
 
 {/*             
             <Route element={<PrivateRoute/>}>

@@ -1,7 +1,12 @@
 const Category=require("../models/Category");
+const Product=require("../models/Product")
 exports.submitCategory=async (req,res)=>{
-    const {name,sexe,_id}=req.body;
-    if(_id!=""){
+    
+    var {name,sexe,_id}=req.body;
+    sexe=sexe.toString()
+    // return 
+
+    if(_id!=undefined){
     const data=await Category.find().and([{name},{_id:{$ne:_id}}]).select()
     if(data.length!=0)
         return res.status(400).json({err:"Please the name is already exist !!"})
