@@ -87,6 +87,35 @@ exports.getDataInput=async (req,res)=>{
     }
     return res.status(400).json({err:categories});
 }
+exports.getDataHome=async (req,res)=>{
+        const offset=req.params.offset;
+    const searchQuery={}
+    const data=await Product.find(searchQuery).select("-photo").populate([
+        {
+            path:"saller",
+            model:"User",
+            select:["_id","first_name","last_name"],
+            // match:{
+            //     first_name:{$regex:'.*'+first_name+'.*',$options:'i'},
+            //     last_name:{$regex:'.*'+last_name+'.*',$options:'i'}
+            // }
+
+        },
+        {
+            path:"category",
+            model:"Category",
+            select:["_id","name","sexe"],
+            // match:{
+            //     name:{$regex:'.*'+name+'.*',$options:'i'},
+            // }
+            
+        }
+    ]).sort({createdAt:-1}).skip(offset).limit(9)
+    if(data)
+        return res.json({data})
+    return res.status(400).json({err:data})
+
+}
 exports.getData=async (req,res)=>{
     const offset=req.params.offset;
     const  {name,description,price,status,qty,sizes,rating,first_name,last_name,category}=req.body;
