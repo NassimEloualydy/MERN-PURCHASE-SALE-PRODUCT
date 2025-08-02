@@ -89,25 +89,33 @@ exports.getDataInput=async (req,res)=>{
 }
 exports.getDataHome=async (req,res)=>{
         const offset=req.params.offset;
+    const  {name,description,price,status,qty,sizes,rating,first_name,last_name,category}=req.body;
     const searchQuery={}
+    searchQuery.name={$regex:'.*'+name+'.*',$options:'i'}
+    searchQuery.description={$regex:'.*'+description+'.*',$options:'i'}
+    searchQuery.price={$regex:'.*'+price+'.*',$options:'i'}
+    searchQuery.status={$regex:'.*'+status+'.*',$options:'i'}
+    searchQuery.qty={$regex:'.*'+qty+'.*',$options:'i'}
+    searchQuery.sizes={$regex:'.*'+sizes+'.*',$options:'i'}
+    searchQuery.rating={$regex:'.*'+rating+'.*',$options:'i'}
     const data=await Product.find(searchQuery).select("-photo").populate([
         {
             path:"saller",
             model:"User",
             select:["_id","first_name","last_name"],
-            // match:{
-            //     first_name:{$regex:'.*'+first_name+'.*',$options:'i'},
-            //     last_name:{$regex:'.*'+last_name+'.*',$options:'i'}
-            // }
+            match:{
+                first_name:{$regex:'.*'+first_name+'.*',$options:'i'},
+                last_name:{$regex:'.*'+last_name+'.*',$options:'i'}
+            }
 
         },
         {
             path:"category",
             model:"Category",
             select:["_id","name","sexe"],
-            // match:{
-            //     name:{$regex:'.*'+name+'.*',$options:'i'},
-            // }
+            match:{
+                name:{$regex:'.*'+category+'.*',$options:'i'},
+            }
             
         }
     ]).sort({createdAt:-1}).skip(offset).limit(9)

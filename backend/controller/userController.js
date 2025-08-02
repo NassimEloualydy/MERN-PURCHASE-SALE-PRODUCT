@@ -26,7 +26,7 @@ exports.register=async (req,res)=>{
         // console.log(password_new)
         // console.log(d)
         const u=await User.create({
-            first_name,last_name,email,role,phone,pw:password_new,
+            first_name,last_name,email,role:"Saller",phone,pw:password_new,
             photo:{
                 data:fs.readFileSync(files.photo.path),
                 contentType:files.photo.type
