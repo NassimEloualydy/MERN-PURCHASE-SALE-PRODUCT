@@ -17,7 +17,7 @@ exports.submitOrder=async (req,res)=>{
         return res.json({message:"Order Added with success !!"});
 }
 exports.getData=async (req,res)=>{
-    const data=await Order.find().select().populate([
+    const data=await Order.find({status:"In Progress"}).select().populate([
         {
             path:"user",
             model:"User",
@@ -64,4 +64,17 @@ exports.updateQty=async (req,res)=>{
 
          }
     }
+}
+exports.paid=async (req,res)=>{
+   const ids= req.body.ids;
+   const data=await Order.updateMany(
+    {_id:{$in:ids}},
+    {$set:{isReceived:"True",
+        isPaid:"True",status:"Confirmed"
+}}
+)
+if(data)
+    return res.json({message:"Orders Confirmed and deleverd !!"})
+return res.status(400).json({err:data});
+
 }

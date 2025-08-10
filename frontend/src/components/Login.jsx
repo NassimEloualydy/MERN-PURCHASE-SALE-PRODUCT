@@ -23,7 +23,7 @@ const handleChange=(e)=>{
   setUser({...user,[e.target.name]:value})
 
 }
-const login=()=>{
+const login= async ()=>{
   fetch(`${API_URL}/user/login`,{
     method:"POST",
     headers:{
@@ -47,10 +47,13 @@ const login=()=>{
       toastr.warning(res.err,"Warinig",{positionClass:"toast-bottom-right"})
 
     }else{
+      console.log("error")
     console.log(res)
 
     }
   }).catch(err=>{
+      console.log("error")
+
     console.log(err)
   })
 }

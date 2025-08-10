@@ -7,6 +7,7 @@ import PrivateRoute from './PrivateRoute'
 import Category from '../components/Category'
 import Product from '../components/Product'
 import ProductDetails from '../components/ProductDetails'
+import Paiment from '../components/Paiment'
 const RouteSystem = () => {
   return (
     <div>
@@ -26,6 +27,9 @@ const RouteSystem = () => {
               <Route path="/ProductDetails" element={<ProductDetails/>} />
             </Route>
 
+            <Route element={<PrivateRoute/>}>
+              <Route path="/Paiment" element={<Paiment/>} />
+            </Route>
             
 
 {/*             

@@ -6,11 +6,20 @@ import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 import 'datatables.net-select-dt';
 import 'datatables.net-responsive-dt';
+import { useNavigate } from 'react-router-dom';
 DataTable.use(DT);
 
 
 const Home = () => {
-    const [menu,setMenu]=useState(false);
+    const navigate=useNavigate()
+    const cinfirmOrder=()=>{
+      if(price>0)
+      navigate('/Paiment',{state:orders})
+    else
+      toastr.warning("You Have ordered nothing !!","Warning",{positionClass:"toast-bottom-right"})
+
+    }
+  const [menu,setMenu]=useState(false);
     const [products,setProducts]=useState([])
     const [orders,setOrders]=useState([]);
     const [price,setPrice]=useState(0)
@@ -387,7 +396,7 @@ useEffect(()=>{
                       
                       
                       <hr />
-                      <input type="button" value="Confirm Order" className="btn btn-dark" style={{backgroundColor:"#2a9d8f",borderColor:"#2a9d8f"}} />
+                      <input type="button" value="Confirm Order" onClick={cinfirmOrder} className="btn btn-dark" style={{backgroundColor:"#2a9d8f",borderColor:"#2a9d8f"}} />
 
                                </div>
 

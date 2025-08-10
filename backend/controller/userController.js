@@ -8,7 +8,10 @@ exports.register=async (req,res)=>{
    const form= new formidable.IncomingForm()
    form.keepExtensions=true
    form.parse(req,async (err,fields,files)=>{
-    const {first_name,last_name,email,role,phone,password}=fields;
+    const upload = multer();
+    const {first_name,last_name,email,role,phone,password,contentType,uri}=fields;
+    console.log(fields)
+    return
     var user=await User.find({first_name,last_name}).select("-photo")
     if(user.length!=0)
         return res.status(400).json({err:"Please the first name and the last name is already exist !!"});
@@ -37,6 +40,7 @@ exports.register=async (req,res)=>{
 })
 }
 exports.login=async (req,res)=>{
+    console.log(req.body)
     const {email,password}=req.body;
     const user=await User.find({email}).select("-photo")
     if(user.length==0){
