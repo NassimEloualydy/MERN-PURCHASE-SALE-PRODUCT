@@ -12,15 +12,88 @@ import 'datatables.net-select-dt';
 import 'datatables.net-responsive-dt';
 import { CMultiSelect } from "@coreui/react-pro";
 import "@coreui/coreui-pro/dist/css/coreui.min.css";
-
+import {PayPalButtons,PayPalScriptProvider,usePayPalScriptReducer} from '@paypal/react-paypal-js'
 const Paiment = () => {
+// paypal tools
+const base="https://api-m.sandbox.paypal.com"
+const capturePayment=async (orderId)=>{
+  const token=await generateAccessToken();
+  const url=`${base}/v2/checkout/orders/${orderId}/capture`
+  const response=await fetch(url,{
+    method:"POST",
+    headers:{
+      'Content-Type':'application/json',
+      Authorization:`Bearer ${token}`,
+    }
+  })
+  if(response.ok){
+    const res=await response.json()
+    console.log(res)
+    return await response.json();
+  }else{
+    const errorMessage=await response.text()
+    console.log(errorMessage)
+  }
+}
+const createOrder=async (price)=>{
+
+  const token=await generateAccessToken();
+  const url=`${base}/v2/checkout/orders`
+  const response=await fetch(url,{
+    method:"POST",
+    headers:{
+      'Content-Type':'application/json',
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify({
+      intent:'CAPTURE',
+      purchase_units:[{
+        amount:{
+          currency_code:'USD',
+          value:price
+        }
+      }]
+    })
+  }
+
+  )
+  if(response.ok){
+    return await response.json();
+  }else{
+    const errorMessage=await response.text()
+    console.log(errorMessage)
+  }
+}
+// Generate Access token
+const PAYPAL_CLENT_ID="AfdbfYtpK1KaTxW83MWQlreQSQwugc6ToyOlppQpyBoiSCePQIT6p4ErRCM5BwM9AdHxcMP3z7KVufR1"
+const PAYPAL_SECRET="EEIkO9DDLk5KjBpxP269LnmsXyDHiXJOFLVOqTc2gtWwrFdxhcbyqhvaoRShHNy411PPP9jXwoPS8Zc5"
+const generateAccessToken=async ()=>{
+const auth= btoa(`${PAYPAL_CLENT_ID}:${PAYPAL_SECRET}`)
+
+const response=await fetch(`${base}/v1/oauth2/token`,{
+  method:"POST",
+  body:'grant_type=client_credentials',
+  headers:{
+    Authorization:`Basic ${auth}`,
+    'Content-Type':'application/x-www-form-urlencoded'
+  }
+});
+if(response.ok){
+  const jsonData=await response.json();
+  return jsonData.access_token 
+}else{
+  const errorMessage=await response.text();
+  console.log(errorMessage)
+}
+}
+// paypal tools
+
         const [user,setUser]=useState({})
         const navigate=useNavigate();
         useEffect(()=>{
           const user=JSON.parse(localStorage.getItem("user"));
           if(user)
             setUser(user)
-          
         },[])
     
   const location = useLocation();
@@ -59,6 +132,23 @@ const paid=()=>{
         console.log(err)
       })
     
+}
+const hanldeCreateOrdr = async ()=>{
+  const res=await createOrder(price)
+  return res.id
+}
+const handleApprove =async ()=>{
+ 
+}
+const PintLoadingState=()=>{
+  const [{isPending,isRejected}]=usePayPalScriptReducer();
+  let status='';
+  if(isPending)
+    status='Loading PayPal ...'
+  else if(isRejected)
+    status='Error Loading PayPal ...'
+
+  return status
 }
 const MenuSwitch=(data)=>{
         setMenu(!menu)
@@ -183,6 +273,11 @@ const MenuSwitch=(data)=>{
             </div>
             <div className="col-lg-3 col-md-12 mt-2">
                 <div className="card p-3">
+                        {/* paypal payment */}
+                        <PayPalScriptProvider options={{clientId:PAYPAL_CLENT_ID}}>
+                        <PintLoadingState/>
+                                <PayPalButtons createOrder={hanldeCreateOrdr} onApprove={handleApprove}/>
+                        </PayPalScriptProvider>
                       <div className="row mb-3">
                         <span className='col-md fw-bolder text-start'>Saller : </span> 
                         <span className='col-md fw-bolder text-end'>{user.first_name} {user.last_name} </span> 

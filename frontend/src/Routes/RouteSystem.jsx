@@ -8,6 +8,7 @@ import Category from '../components/Category'
 import Product from '../components/Product'
 import ProductDetails from '../components/ProductDetails'
 import Paiment from '../components/Paiment'
+import Orders from '../components/Orders'
 const RouteSystem = () => {
   return (
     <div>
@@ -19,6 +20,9 @@ const RouteSystem = () => {
             <Route path="/Login" element={<Login/>} />
             <Route element={<PrivateRoute/>}>
               <Route path="/Category" element={<Category/>} />
+            </Route>
+            <Route element={<PrivateRoute/>}>
+              <Route path="/Orders" element={<Orders/>} />
             </Route>
             <Route element={<PrivateRoute/>}>
               <Route path="/Product" element={<Product/>} />
